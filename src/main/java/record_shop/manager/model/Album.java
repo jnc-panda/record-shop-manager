@@ -6,12 +6,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
-@Builder
-
-
 @Entity
 public class Album {
 
@@ -24,7 +18,7 @@ public class Album {
     String name;
 
     @Column
-    int year;
+    int releaseYear;
 
     @Column
     Genre genre;
@@ -33,7 +27,52 @@ public class Album {
     int stockCount;
 
 
+    public Album(){};
 
+    public Album(String name, int releaseYear, Genre genre, int stockCount) {
+        this.name = name;
+        this.releaseYear = releaseYear;
+        this.genre = genre;
+        this.stockCount = stockCount;
+    }
 
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getReleaseYear() {
+        return releaseYear;
+    }
+
+    public void setReleaseYear(int releaseYear) {
+        this.releaseYear = releaseYear;
+    }
+
+    public Genre getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
+    }
+
+    public int getStockCount() {
+        return stockCount;
+    }
+
+    public void setStockCount(int stockCount) {
+        this.stockCount = stockCount;
+    }
 }

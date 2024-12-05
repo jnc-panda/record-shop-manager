@@ -31,7 +31,7 @@ public class RecordShopServiceImpl implements RecordShopService {
         Album updatedAlbum = new Album();
         updatedAlbum.setName(album.getName());
         updatedAlbum.setGenre(album.getGenre());
-        updatedAlbum.setYear(album.getYear());
+        updatedAlbum.setReleaseYear(album.getReleaseYear());
         updatedAlbum.setStockCount(album.getStockCount());
 
         return updatedAlbum;

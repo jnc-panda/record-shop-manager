@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import record_shop.manager.model.Album;
 
 @Repository
-public interface RecordShopRepository extends CrudRepository<Album, Long> {
+public interface RecordShopRepository extends CrudRepository <Album, Long> {
 }
