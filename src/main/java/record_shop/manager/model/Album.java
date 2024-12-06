@@ -26,10 +26,14 @@ public class Album {
     @Column
     int stockCount;
 
+    @ManyToOne
+    @JoinColumn(name = "artist_id")
+    private Artist artist;
+
 
     public Album(){};
 
-    public Album(String name, int releaseYear, Genre genre, int stockCount) {
+    public Album(String name, int releaseYear, Genre genre, int stockCount, Artist artist) {
         this.name = name;
         this.releaseYear = releaseYear;
         this.genre = genre;
@@ -74,5 +78,13 @@ public class Album {
 
     public void setStockCount(int stockCount) {
         this.stockCount = stockCount;
+    }
+
+    public Artist getArtist() {
+        return artist;
+    }
+
+    public void setArtist(Artist artist) {
+        this.artist = artist;
     }
 }

@@ -26,7 +26,7 @@ public class RecordShopRepositoryTest {
     public void testRepoFindsAllAlbums() {
 
         Artist artist1 = new Artist("Porter Robinson");
-        Album album1 = new Album("SMILE :D", 2024, Genre.Electronic, 10);
+        Album album1 = new Album("SMILE :D", 2024, Genre.Electronic, 10, artist1);
 
         recordShopRepository.save(album1);
 
