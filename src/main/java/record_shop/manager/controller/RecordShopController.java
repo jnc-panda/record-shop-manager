@@ -17,12 +17,20 @@ import java.util.List;
 public class RecordShopController {
 
     @Autowired
-    RecordShopService recordShopService;
+    RecordShopServiceImpl recordShopServiceImpl;
 
 
     @GetMapping
     public ResponseEntity<List<Album>> getAllAlbums() {
-        List<Album> albums = recordShopService.getAlbums();
+        List<Album> albums = recordShopServiceImpl.getAlbums();
         return new ResponseEntity<>(albums, HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<Album> postAlbum(@RequestBody Album album) {
+        Album newAlbum = recordShopServiceImpl.insertAlbum(album);
+        return new ResponseEntity<>(newAlbum, HttpStatus.CREATED);
+
+
     }
 }

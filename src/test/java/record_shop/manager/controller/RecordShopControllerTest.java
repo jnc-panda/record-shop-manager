@@ -1,6 +1,7 @@
 package record_shop.manager.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -66,19 +69,20 @@ public class RecordShopControllerTest {
     }
 
     @Test
-    public void testPostAlbumsInsertsAlbum() throws Exception {
+    public void testPostAlbumsInsertsAlbum() throws Exception, JsonProcessingException {
 
-        Album album1 = new Album("Paths", 2023, Genre.Electronic, 5, new Artist("G Jones"));
-//        Album album2 = new Album("The Dude", 1981, Genre.RnB, 11, new Artist("Quincy Jones"));
-//        Album album3 = new Album("Fear of the Dark", 1992, Genre.Metal, 99, new Artist("Iron Maiden"));
+        Artist artist1 = new Artist("G Jones");
+        Album album1 = new Album("Paths", 2023, Genre.Electronic, 5, artist1);
 
         when(mockRecordShopServiceImpl.insertAlbum(album1)).thenReturn(album1);
 
         this.mockMvcController.perform(
-                        MockMvcRequestBuilders.get("/api/v1/recordShop"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Paths"));
-//                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value("The Dude"))
-//                .andExpect(MockMvcResultMatchers.jsonPath("$[2].name").value("Fear of the Dark"));
+                        MockMvcRequestBuilders.post("/api/v1/recordShop")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(mapper.writeValueAsString(album1)))
+                .andExpect(MockMvcResultMatchers.status().isCreated());
+
     }
 }
+//        Album album2 = new Album("The Dude", 1981, Genre.RnB, 11, new Artist("Quincy Jones"));
+//        Album album3 = new Album("Fear of the Dark", 1992, Genre.Metal, 99, new Artist("Iron Maiden"));
