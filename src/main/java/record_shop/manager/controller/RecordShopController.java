@@ -16,7 +16,6 @@ import java.util.List;
 
 public class RecordShopController {
 
-
     @Autowired
     RecordShopService recordShopService;
 

@@ -10,7 +10,7 @@ public interface RecordShopService {
 
     List<Album> getAlbums();
     Album insertAlbum(Album album);
-    Album updateAlbum(Album album);
+    Album updateAlbum(Album album, Long id);
     Optional<Album> findAlbumById(Long id);
     HashMap<String, Boolean> deleteAlbumById(Long id);
 }
