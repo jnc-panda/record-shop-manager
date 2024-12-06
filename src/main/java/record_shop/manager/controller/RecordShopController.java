@@ -30,7 +30,11 @@ public class RecordShopController {
     public ResponseEntity<Album> postAlbum(@RequestBody Album album) {
         Album newAlbum = recordShopServiceImpl.insertAlbum(album);
         return new ResponseEntity<>(newAlbum, HttpStatus.CREATED);
+    }
 
-
+    @PutMapping({"/{album_id}"})
+    public ResponseEntity<Album> updateAlbumById(@RequestBody Album album, @PathVariable Long album_id){
+        Album albumToUpdate = recordShopServiceImpl.updateAlbum(album, album_id);
+        return new ResponseEntity<>(albumToUpdate, HttpStatus.OK);
     }
 }

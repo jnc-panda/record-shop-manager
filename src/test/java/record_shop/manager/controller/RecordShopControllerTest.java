@@ -83,6 +83,23 @@ public class RecordShopControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isCreated());
 
     }
+
+    @Test
+    public void testUpdateAlbumUpdatesAlbum() throws Exception, JsonProcessingException {
+
+        Artist artist1 = new Artist("G Jones");
+        Album album1 = new Album("Paths", 2023, Genre.Electronic, 5, artist1);
+        Album album2 = new Album("The Dude", 1981, Genre.RnB, 11, new Artist("Quincy Jones"));
+
+        when(mockRecordShopServiceImpl.updateAlbum(album2, 1L)).thenReturn(album2);
+
+        this.mockMvcController.perform(
+                        MockMvcRequestBuilders.put("/api/v1/recordShop/1")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(mapper.writeValueAsString(album2)))
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+
+    }
 }
 //        Album album2 = new Album("The Dude", 1981, Genre.RnB, 11, new Artist("Quincy Jones"));
 //        Album album3 = new Album("Fear of the Dark", 1992, Genre.Metal, 99, new Artist("Iron Maiden"));
