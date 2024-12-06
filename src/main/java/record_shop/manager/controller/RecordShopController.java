@@ -9,6 +9,7 @@ import record_shop.manager.model.Album;
 import record_shop.manager.service.RecordShopService;
 import record_shop.manager.service.RecordShopServiceImpl;
 
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -32,9 +33,15 @@ public class RecordShopController {
         return new ResponseEntity<>(newAlbum, HttpStatus.CREATED);
     }
 
-    @PutMapping({"/{album_id}"})
-    public ResponseEntity<Album> updateAlbumById(@RequestBody Album album, @PathVariable Long album_id){
-        Album albumToUpdate = recordShopServiceImpl.updateAlbum(album, album_id);
-        return new ResponseEntity<>(albumToUpdate, HttpStatus.OK);
+    @PutMapping({"/{albumId}"})
+    public ResponseEntity<Album> updateAlbumById(@RequestBody Album album, @PathVariable Long albumId){
+        Album albumToUpdate = recordShopServiceImpl.updateAlbum(album, albumId);
+        return new ResponseEntity<>(albumToUpdate, HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping({"/{albumId}"})
+    public ResponseEntity<HashMap<String, Boolean>> deleteAlbumById(Long albumId) {
+
+    return new ResponseEntity<>(recordShopServiceImpl.deleteAlbumById(albumId), HttpStatus.NO_CONTENT);
     }
 }

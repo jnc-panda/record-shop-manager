@@ -28,16 +28,16 @@ public class RecordShopServiceImpl implements RecordShopService {
 
     @Override
     public Album updateAlbum(Album album, Long id) {
-        recordShopRepository.findById(id)
+        Album updateableAlbum = recordShopRepository.findById(id)
                 .orElseThrow(() -> new ResourceAccessException("No such album with id: " + id));
 
-        Album updatedAlbum = new Album();
-        updatedAlbum.setName(album.getName());
-        updatedAlbum.setGenre(album.getGenre());
-        updatedAlbum.setReleaseYear(album.getReleaseYear());
-        updatedAlbum.setStockCount(album.getStockCount());
+        updateableAlbum.setArtist(album.getArtist());
+        updateableAlbum.setName(album.getName());
+        updateableAlbum.setGenre(album.getGenre());
+        updateableAlbum.setReleaseYear(album.getReleaseYear());
+        updateableAlbum.setStockCount(album.getStockCount());
 
-        return recordShopRepository.save(album);
+        return recordShopRepository.save(updateableAlbum);
     }
 
     @Override

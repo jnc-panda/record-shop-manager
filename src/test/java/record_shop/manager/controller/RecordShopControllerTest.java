@@ -21,8 +21,10 @@ import record_shop.manager.model.Genre;
 import record_shop.manager.service.RecordShopServiceImpl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
@@ -100,6 +102,28 @@ public class RecordShopControllerTest {
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
 
     }
+
+    @Test
+    public void testDeleteAlbumDeletesAlbum() throws Exception, JsonProcessingException {
+
+        List<Album> albums = new ArrayList<>();
+        Album album1 = new Album("Paths", 2023, Genre.Electronic, 5, new Artist("G Jones"));
+        Album album2 = new Album("The Dude", 1981, Genre.RnB, 11, new Artist("Quincy Jones"));
+        albums.add(album1);
+        albums.add(album2);
+
+        HashMap<String, Boolean> response = new HashMap<>();
+        response.put("deleted", Boolean.TRUE);
+
+        when(mockRecordShopServiceImpl.deleteAlbumById(1L)).thenReturn(response);
+
+
+        this.mockMvcController.perform(
+                        MockMvcRequestBuilders.delete("/api/v1/recordShop/1"))
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+
+    }
+
 }
 //        Album album2 = new Album("The Dude", 1981, Genre.RnB, 11, new Artist("Quincy Jones"));
 //        Album album3 = new Album("Fear of the Dark", 1992, Genre.Metal, 99, new Artist("Iron Maiden"));
