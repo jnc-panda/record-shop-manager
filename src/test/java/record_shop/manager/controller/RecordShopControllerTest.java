@@ -45,7 +45,7 @@ public class RecordShopControllerTest {
     }
 
     @Test
-    public void testGetAllBooksReturnsBooks() throws Exception {
+    public void testGetAlbumsReturnsAllAlbums() throws Exception {
 
         List<Album> albums = new ArrayList<>();
         albums.add(new Album("Paths", 2023, Genre.Electronic, 5, new Artist("G Jones")));
@@ -63,5 +63,22 @@ public class RecordShopControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value("The Dude"))
 //                .andExpect(MockMvcResultMatchers.jsonPath("$[2].id").value(3))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[2].name").value("Fear of the Dark"));
+    }
+
+    @Test
+    public void testPostAlbumsInsertsAlbum() throws Exception {
+
+        Album album1 = new Album("Paths", 2023, Genre.Electronic, 5, new Artist("G Jones"));
+//        Album album2 = new Album("The Dude", 1981, Genre.RnB, 11, new Artist("Quincy Jones"));
+//        Album album3 = new Album("Fear of the Dark", 1992, Genre.Metal, 99, new Artist("Iron Maiden"));
+
+        when(mockRecordShopServiceImpl.insertAlbum(album1)).thenReturn(album1);
+
+        this.mockMvcController.perform(
+                        MockMvcRequestBuilders.get("/api/v1/recordShop"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Paths"));
+//                .andExpect(MockMvcResultMatchers.jsonPath("$[1].name").value("The Dude"))
+//                .andExpect(MockMvcResultMatchers.jsonPath("$[2].name").value("Fear of the Dark"));
     }
 }
