@@ -11,6 +11,7 @@ import record_shop.manager.service.RecordShopServiceImpl;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/recordShop")
@@ -27,6 +28,12 @@ public class RecordShopController {
         return new ResponseEntity<>(albums, HttpStatus.OK);
     }
 
+    @GetMapping({"/{albumId}"})
+    public ResponseEntity<Optional<Album>> getAllAlbumById(@PathVariable Long albumId) {
+        Optional<Album> album = recordShopServiceImpl.findAlbumById(albumId);
+        return new ResponseEntity<>(album, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Album> postAlbum(@RequestBody Album album) {
         Album newAlbum = recordShopServiceImpl.insertAlbum(album);
@@ -40,7 +47,7 @@ public class RecordShopController {
     }
 
     @DeleteMapping({"/{albumId}"})
-    public ResponseEntity<HashMap<String, Boolean>> deleteAlbumById(Long albumId) {
+    public ResponseEntity<HashMap<String, Boolean>> deleteAlbumById(@PathVariable(required = true) Long albumId) {
 
     return new ResponseEntity<>(recordShopServiceImpl.deleteAlbumById(albumId), HttpStatus.NO_CONTENT);
     }

@@ -23,8 +23,10 @@ import record_shop.manager.service.RecordShopServiceImpl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
@@ -121,6 +123,24 @@ public class RecordShopControllerTest {
         this.mockMvcController.perform(
                         MockMvcRequestBuilders.delete("/api/v1/recordShop/1"))
                 .andExpect(MockMvcResultMatchers.status().is2xxSuccessful());
+
+    }
+
+    @Test
+    public void testFindAlbumByIdReturnsAlbum() throws Exception, JsonProcessingException {
+
+        List<Album> albums = new ArrayList<>();
+        Album album1 = new Album("Paths", 2023, Genre.Electronic, 5, new Artist("G Jones"));
+        Album album2 = new Album("The Dude", 1981, Genre.RnB, 11, new Artist("Quincy Jones"));
+        albums.add(album1);
+        albums.add(album2);
+
+        when(mockRecordShopServiceImpl.findAlbumById(1L)).thenReturn(Optional.of(albums.get(1)));
+
+        this.mockMvcController.perform(
+                        MockMvcRequestBuilders.get("/api/v1/recordShop/1"))
+                .andExpect(MockMvcResultMatchers.status().is2xxSuccessful())
+                .andExpect(MockMvcResultMatchers.jsonPath(".name").value("The Dude"));
 
     }
 
