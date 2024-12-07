@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import record_shop.manager.model.Album;
@@ -144,6 +145,13 @@ public class RecordShopControllerTest {
 
     }
 
+    @Test
+    public void testGetAlbumByIdReturns404() throws Exception, JsonProcessingException {
+
+        this.mockMvcController.perform(
+                        MockMvcRequestBuilders.get("/api/v1/recordShop/3"))
+                .andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
 }
 //        Album album2 = new Album("The Dude", 1981, Genre.RnB, 11, new Artist("Quincy Jones"));
 //        Album album3 = new Album("Fear of the Dark", 1992, Genre.Metal, 99, new Artist("Iron Maiden"));

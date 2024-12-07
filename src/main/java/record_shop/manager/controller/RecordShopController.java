@@ -11,6 +11,7 @@ import record_shop.manager.service.RecordShopServiceImpl;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RestController
@@ -29,9 +30,12 @@ public class RecordShopController {
     }
 
     @GetMapping({"/{albumId}"})
-    public ResponseEntity<Optional<Album>> getAllAlbumById(@PathVariable Long albumId) {
-        Optional<Album> album = recordShopServiceImpl.findAlbumById(albumId);
-        return new ResponseEntity<>(album, HttpStatus.OK);
+    public ResponseEntity<?> getAllAlbumById(@PathVariable Long albumId) {
+       Optional<Album> album = recordShopServiceImpl.findAlbumById(albumId);
+       if(!album.isPresent()) {
+           return new ResponseEntity<>("Album not found, please check id.", HttpStatus.NOT_FOUND);
+       }
+       return new ResponseEntity<>(album, HttpStatus.OK);
     }
 
     @PostMapping
@@ -48,7 +52,7 @@ public class RecordShopController {
 
     @DeleteMapping({"/{albumId}"})
     public ResponseEntity<HashMap<String, Boolean>> deleteAlbumById(@PathVariable(required = true) Long albumId) {
-
     return new ResponseEntity<>(recordShopServiceImpl.deleteAlbumById(albumId), HttpStatus.NO_CONTENT);
     }
 }
+
